@@ -1,0 +1,9 @@
+<div class="gi-canvas-container">
+  <div>
+    {{ canvas.state.lastX }} x {{ canvas.state.lastY }}
+  </div>
+  <canvas id="gi-canvas"
+          width="640"
+          height="480"
+          ng-mousemove="canvas.onMousemove($event)"/>
+</div>
