@@ -1,15 +1,13 @@
 "use strict";
 
-class CanvasController {
-  constructor($scope) {
-    this.state = $scope.state;
-    this.activeToolId = null;
+class Canvas {
+  constructor(id, state) {
+    this.id = id;
+    this.state = state;
   }
 
   getCanvas() {
-    if (!this.canvas) {
-      this.canvas = document.getElementById("gi-canvas");
-    }
+    this.canvas = this.canvas || document.getElementById(this.id);
     return this.canvas;
   }
 
@@ -17,10 +15,18 @@ class CanvasController {
     this.ctx = this.ctx || this.getCanvas().getContext("2d");
     return this.ctx;
   }
+}
+
+class CurrentTool {
+  constructor(state) {
+    this.state = state;
+    this.activeId = null;
+  }
 
   getTool() {
-    if (this.activeToolId !== this.state.toolId) {
+    if (this.activeId !== this.state.toolId) {
       this.tool = null;
+      this.activeId = this.state.toolId;
     }
 
     this.tool = this.tool || this.createTool();
@@ -28,13 +34,29 @@ class CanvasController {
   }
 
   createTool() {
-    let toolId = this.state.toolId,
-        def = this.state.tools[toolId];
-    return def.create();
+    return this.state.tools[this.activeId].create();
+  }
+}
+
+
+class CanvasController {
+  constructor($scope) {
+    this.state = $scope.state;
+    this.primary = new Canvas("gi-primary-canvas", this.state);
+    this.draw = new Canvas("gi-draw-canvas", this.state);
+    this.currentTool = new CurrentTool(this.state);
   }
 
   onMousemove(event) {
-    this.getTool().onMousemove(this, event, this.state);
+    this.currentTool.getTool().onMousemove(this, event, this.state);
+  }
+
+  onMousedown(event) {
+    this.currentTool.getTool().onMousedown(this, event, this.state);
+  }
+
+  onMouseup(event) {
+    this.currentTool.getTool().onMouseup(this, event, this.state);
   }
 }
 

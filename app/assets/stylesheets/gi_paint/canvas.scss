@@ -10,9 +10,26 @@
   background-color: #aceace;
 }
 
-#gi-canvas {
+#gi-canvas-container {
+  position: relative;
   background-color: white;
   width: 640px;
   height: 480px;
   border: 1px solid;
+}
+
+.gi-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+#gi-primary-canvas {
+  z-order: 1;
+}
+
+#gi-draw-canvas {
+  z-order: 2;
 }

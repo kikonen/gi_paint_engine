@@ -2,8 +2,20 @@
   <div>
     {{ canvas.state.lastX }} x {{ canvas.state.lastY }}
   </div>
-  <canvas id="gi-canvas"
-          width="640"
-          height="480"
-          ng-mousemove="canvas.onMousemove($event)"/>
+  <div id="gi-canvas-container">
+    <canvas class="gi-canvas"
+            id="gi-primary-canvas"
+            width="640"
+            height="480"
+            />
+
+    <canvas class="gi-canvas"
+            id="gi-draw-canvas"
+            width="640"
+            height="480"
+            ng-mousemove="canvas.onMousemove($event)"
+            ng-mousedown="canvas.onMousedown($event)"
+            ng-mouseup="canvas.onMouseup($event)"
+            />
+  </div>
 </div>
