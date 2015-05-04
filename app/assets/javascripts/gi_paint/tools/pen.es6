@@ -21,11 +21,6 @@ export class Pen extends Tool {
   }
 
   onMouseup(canvas, event, state) {
-    let draw = canvas.draw,
-        primary = canvas.primary,
-        c = draw.getCanvas();
-
-    primary.getContext().drawImage(c, 0, 0);
-    draw.getContext().clearRect(0, 0, c.width, c.height);
+    this.save(canvas, event, state);
   }
 }

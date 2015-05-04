@@ -4,6 +4,7 @@ import {} from './components/palette';
 import {} from './components/canvas';
 import {Arrow} from './tools/arrow';
 import {Pen} from './tools/pen';
+import {Rectangle} from './tools/rectangle';
 
 class PaintController {
   constructor($scope, $http, $location, $timeout, Breadcrumb) {
@@ -37,7 +38,13 @@ class PaintController {
         create() {
           return new Pen();
         }
-      }
+      },
+      {
+        name: 'Rectangle',
+        create() {
+          return new Rectangle();
+        }
+      },
     ];
   }
 }

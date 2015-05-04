@@ -20,4 +20,20 @@ export class Tool {
   onMousemove(canvas, event, state) {
     console.log("mouse move");
   }
+
+  save(canvas, event, state) {
+    let draw = canvas.draw,
+        primary = canvas.primary,
+        c = draw.getCanvas();
+
+    primary.getContext().drawImage(c, 0, 0);
+    draw.getContext().clearRect(0, 0, c.width, c.height);
+  }
+
+  clear(canvas, event, state) {
+    let draw = canvas.draw,
+        c = draw.getCanvas();
+
+    draw.getContext().clearRect(0, 0, c.width, c.height);
+  }
 }
