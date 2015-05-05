@@ -15,6 +15,17 @@ class Layer {
     this.ctx = this.ctx || this.getCanvas().getContext("2d");
     return this.ctx;
   }
+
+  getOffset() {
+    if (!this.offset) {
+      let rect = this.getCanvas().getBoundingClientRect();
+      this.offset = {
+        x: rect.left,
+        y: rect.top
+      };
+    }
+    return this.offset;
+  }
 }
 
 class CurrentTool {
@@ -50,10 +61,6 @@ class CanvasController {
     this.currentTool = new CurrentTool(this);
   }
 
-  onTouchmove(event) {
-    this.currentTool.getTool().onTouchmove(event);
-  }
-
   onMousemove(event) {
     this.currentTool.getTool().onMousemove(event);
   }
@@ -64,6 +71,14 @@ class CanvasController {
 
   onMouseup(event) {
     this.currentTool.getTool().onMouseup(event);
+  }
+
+  onTouchmove(event) {
+    this.currentTool.getTool().onTouchmove(event);
+  }
+
+  onTouchend(event) {
+    this.currentTool.getTool().onTouchend(event);
   }
 }
 
@@ -80,18 +95,33 @@ angular.module('paint')
   };
 })
 // @see http://jsfiddle.net/guillaumebiton/R8mmR/6/
-.directive('giTouch', function() {
+.directive('giTouchmove', function($parse) {
   return {
     restrict: 'A',
-    scope: {
-      onTouch: '&giTouch'
-    },
     link: function(scope, elem, attrs) {
+      let fn = $parse(attrs.giTouchmove);
       elem.bind('touchmove', (event) => {
-        scope.$apply(() => {
-          scope.onTouch({event: event});
-        });
+        let callback = () => {
+          fn(scope, {$event:event});
+        };
+        scope.$apply(callback);
       });
     }
   };
-});
+})
+// @see http://jsfiddle.net/guillaumebiton/R8mmR/6/
+.directive('giTouchend', function($parse) {
+  return {
+    restrict: 'A',
+    link: function(scope, elem, attrs) {
+      let fn = $parse(attrs.giTouchend);
+      elem.bind('touchend', (event) => {
+        let callback = () => {
+          fn(scope, {$event:event});
+        };
+        scope.$apply(callback);
+      });
+    }
+  };
+})
+;

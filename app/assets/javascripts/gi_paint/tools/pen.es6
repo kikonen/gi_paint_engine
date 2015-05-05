@@ -16,25 +16,34 @@ export class Pen extends Tool {
     this.setLocation(x, y);
   }
 
+  onMouseup(event) {
+    this.save(event);
+  }
+
   onTouchmove(event) {
     let ctx = this.prepare(event),
+        loc = this.getLocation(),
+        offset = this.draw.getOffset(),
         touches = event.originalEvent.changedTouches;
 
     ctx.beginPath();
+    if (loc.x) {
+      ctx.moveTo(loc.x, loc.y);
+    }
     for (var i = 0; i < touches.length; i++) {
       let touch = touches[i],
-          x = touch.clientX,
-          y = touch.clientY;
-      if (i === 0) {
+          x = Math.round(touch.clientX) - offset.x,
+          y = Math.round(touch.clientY) - offset.y;
+      if (!loc.x) {
         ctx.moveTo(x, y);
       }
       ctx.lineTo(x, y);
+      this.setLocation(x, y);
     }
     ctx.stroke();
   }
 
-
-  onMouseup(event) {
-    this.save(event);
+  onTouchend(event) {
+    this.clearLocation();
   }
 }
