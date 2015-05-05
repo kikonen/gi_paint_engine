@@ -25,6 +25,9 @@ export class Tool {
     console.log("mouse move");
   }
 
+  onTouchmove(event) {
+  }
+
   prepare(event) {
     let ctx = this.draw.getContext(),
         palette = this.state.palette;

@@ -50,8 +50,8 @@ class CanvasController {
     this.currentTool = new CurrentTool(this);
   }
 
-  onTouch(event) {
-    this.currentTool.getTool().onMousemove(event);
+  onTouchmove(event) {
+    this.currentTool.getTool().onTouchmove(event);
   }
 
   onMousemove(event) {
@@ -77,5 +77,21 @@ angular.module('paint')
     controller: CanvasController,
     controllerAs: 'canvas',
     templateUrl: 'gi_paint/ui/canvas'
+  };
+})
+// @see http://jsfiddle.net/guillaumebiton/R8mmR/6/
+.directive('giTouch', function() {
+  return {
+    restrict: 'A',
+    scope: {
+      onTouch: '&giTouch'
+    },
+    link: function(scope, elem, attrs) {
+      elem.bind('touchmove', (event) => {
+        scope.$apply(() => {
+          scope.onTouch({event: event});
+        });
+      });
+    }
   };
 });
