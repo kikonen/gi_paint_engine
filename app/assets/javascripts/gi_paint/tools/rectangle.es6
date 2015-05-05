@@ -3,37 +3,32 @@
 import {Tool, BUTTONS} from './tool';
 
 export class Rectangle extends Tool {
-  onMousemove(canvas, event, state) {
-    let x = event.offsetX,
+  onMousemove(event) {
+    let loc = this.getLocation(),
+        x = event.offsetX,
         y = event.offsetY;
+
     if (event.which === BUTTONS.one) {
-      if (state.lastX) {
-        let c = canvas.draw.getCanvas(),
-            ctx = canvas.draw.getContext(),
-            palette = state.palette;
-        ctx.beginPath();
+      if (loc.x) {
+        let c = this.draw.getCanvas(),
+            ctx = this.prepare(event);
         ctx.clearRect(0, 0, c.width, c.height);
-        ctx.rect(state.lastX, state.lastY, x - state.lastX, y - state.lastY);
-        ctx.strokeStyle = palette.strokeStyle;
-        ctx.lineWidth = palette.lineWidth;
+        ctx.rect(loc.x, loc.y, x - loc.x, y - loc.y);
         ctx.stroke();
       }
     }
 
-    if (state.lastX == null) {
-      state.lastX = x;
-      state.lastY = y;
+    if (loc.x == null) {
+      this.setLocation(x, y);
     }
   }
 
-  onMousedown(canvas, event, state) {
-    state.lastX = null;
-    state.lastY = null;
+  onMousedown(event) {
+    this.clearLocation();
   }
 
-  onMouseup(canvas, event, state) {
-    state.lastX = null;
-    state.lastY = null;
-    this.save(canvas, event, state);
+  onMouseup(event) {
+    this.clearLocation();
+    this.save(event);
   }
 }

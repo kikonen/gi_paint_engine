@@ -3,24 +3,20 @@
 import {Tool, BUTTONS} from './tool';
 
 export class Pen extends Tool {
-  onMousemove(canvas, event, state) {
-    let x = event.offsetX,
+  onMousemove(event) {
+    let loc = this.getLocation(),
+        x = event.offsetX,
         y = event.offsetY;
-    if (state.lastX && event.which === BUTTONS.one) {
-      let ctx = canvas.draw.getContext(),
-          palette = state.palette;
-      ctx.beginPath();
-      ctx.moveTo(state.lastX, state.lastY);
+    if (loc.x && event.which === BUTTONS.one) {
+      let ctx = this.prepare(event);
+      ctx.moveTo(loc.x, loc.y);
       ctx.lineTo(x, y);
-      ctx.strokeStyle = palette.strokeStyle;
-      ctx.lineWidth = palette.lineWidth;
       ctx.stroke();
     }
-    state.lastX = x;
-    state.lastY = y;
+    this.setLocation(x, y);
   }
 
-  onMouseup(canvas, event, state) {
-    this.save(canvas, event, state);
+  onMouseup(event) {
+    this.save(event);
   }
 }

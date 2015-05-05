@@ -5,33 +5,60 @@ export const BUTTONS = {
 };
 
 export class Tool {
-  constructor() {
-    this.canvas = null;
+  setCanvas(canvas) {
+    this.canvas = canvas;
+    this.state = canvas.state;
+    this.primary = canvas.primary;
+    this.draw = canvas.draw;
+    this.loc = this.state.location;
   }
 
-  onMousedown(canvas, event, state) {
+  onMousedown(event) {
     console.log("mouse down");
   }
 
-  onMouseup(canvas, event, state) {
+  onMouseup(event) {
     console.log("mouse up");
   }
 
-  onMousemove(canvas, event, state) {
+  onMousemove(event) {
     console.log("mouse move");
   }
 
-  save(canvas, event, state) {
-    let draw = canvas.draw,
-        primary = canvas.primary,
+  prepare(event) {
+    let ctx = this.draw.getContext(),
+        palette = this.state.palette;
+    ctx.beginPath();
+    ctx.strokeStyle = palette.strokeStyle;
+    ctx.lineWidth = palette.lineWidth;
+    return ctx;
+  }
+
+  getLocation() {
+    return this.state.location;
+  }
+
+  setLocation(x, y) {
+    let loc = this.loc;
+    loc.x = x;
+    loc.y = y;
+  }
+
+  clearLocation() {
+    this.setLocation(null, null);
+  }
+
+  save(event) {
+    let draw = this.draw,
+        primary = this.primary,
         c = draw.getCanvas();
 
     primary.getContext().drawImage(c, 0, 0);
     draw.getContext().clearRect(0, 0, c.width, c.height);
   }
 
-  clear(canvas, event, state) {
-    let draw = canvas.draw,
+  clear(event) {
+    let draw = this.draw,
         c = draw.getCanvas();
 
     draw.getContext().clearRect(0, 0, c.width, c.height);

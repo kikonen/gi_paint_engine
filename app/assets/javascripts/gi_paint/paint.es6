@@ -5,6 +5,7 @@ import {} from './components/canvas';
 import {Arrow} from './tools/arrow';
 import {Pen} from './tools/pen';
 import {Rectangle} from './tools/rectangle';
+import {Ellipse} from './tools/ellipse';
 
 class PaintController {
   constructor($scope, $http, $location, $timeout, Breadcrumb) {
@@ -21,7 +22,11 @@ class PaintController {
         lineWidth: 1
       },
       toolId: 1,
-      tools: this.createTools()
+      tools: this.createTools(),
+      location: {
+        x: null,
+        y: null
+      }
     };
   }
 
@@ -43,6 +48,12 @@ class PaintController {
         name: 'Rectangle',
         create() {
           return new Rectangle();
+        }
+      },
+      {
+        name: 'Ellipse',
+        create() {
+          return new Ellipse();
         }
       },
     ];

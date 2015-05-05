@@ -1,6 +1,6 @@
 <div class="gi-canvas-container">
   <div>
-    {{ canvas.state.lastX }} x {{ canvas.state.lastY }}
+    {{ canvas.state.location.x }} x {{ canvas.state.location.y }}
   </div>
   <div id="gi-canvas-container">
     <canvas class="gi-canvas"
@@ -13,6 +13,7 @@
             id="gi-draw-canvas"
             width="640"
             height="480"
+            ng-touch="canvas.onTouch($event)"
             ng-mousemove="canvas.onMousemove($event)"
             ng-mousedown="canvas.onMousedown($event)"
             ng-mouseup="canvas.onMouseup($event)"
