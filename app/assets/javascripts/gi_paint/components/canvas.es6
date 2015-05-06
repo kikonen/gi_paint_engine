@@ -97,11 +97,35 @@ class CurrentTool {
   }
 
   onTouchmove(event) {
-    this.getTool().onTouchmove(event);
+    let state = this.state,
+        loc = state.location,
+        curr = loc.current,
+        prev = loc.previous,
+        orig = loc.original,
+        offset = this.canvas.draw.getOffset(),
+        touches = event.originalEvent.changedTouches;
+
+    for (let i = 0; i < touches.length; i++) {
+      let touch = touches[i];
+
+      if (curr.x) {
+        prev.x = curr.x;
+        prev.y = curr.y;
+      }
+      curr.x = Math.round(touch.clientX - offset.x);
+      curr.y = Math.round(touch.clientY - offset.y);
+
+      if (!orig.x) {
+        orig.x = curr.x;
+        orig.y = curr.y;
+      }
+
+      this.getTool().onPenMove(state, loc);
+    }
   }
 
   onTouchend(event) {
-    this.getTool().onTouchend(event);
+    this.getTool().onPenUp(this.state, this.state.loc);
   }
 }
 
