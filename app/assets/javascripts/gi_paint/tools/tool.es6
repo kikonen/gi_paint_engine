@@ -14,7 +14,6 @@ export class Tool {
   }
 
   onPenDown(state, loc) {
-    console.log("pen down");
   }
 
   onPenUp(state, loc) {
@@ -23,7 +22,6 @@ export class Tool {
   }
 
   onPenMove(state, loc) {
-    console.log("pen down");
   }
 
   onPenCancel(state) {
@@ -63,7 +61,6 @@ export class Tool {
 
     primary.getContext().drawImage(c, 0, 0);
     draw.getContext().clearRect(0, 0, c.width, c.height);
-    console.log("saved");
   }
 
   cleardraw(state) {
@@ -71,7 +68,6 @@ export class Tool {
         c = draw.getCanvas();
 
     draw.getContext().clearRect(0, 0, c.width, c.height);
-    console.log("cleared");
   }
 
   /**
