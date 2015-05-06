@@ -1,25 +1,17 @@
 "use strict";
 
-import {Tool, BUTTONS} from './tool';
+import {Tool} from './tool';
 
 export class Ellipse extends Tool {
-  onMousemove(event) {
-    let loc = this.getLocation(),
-        x = event.offsetX,
-        y = event.offsetY;
+  onPenMove(state, loc) {
+    let orig = loc.original,
+        curr = loc.current,
+        c = this.draw.getCanvas();
 
-    if (event.which === BUTTONS.one) {
-      if (loc.x) {
-        let c = this.draw.getCanvas(),
-            ctx = this.prepare(event);
-        ctx.clearRect(0, 0, c.width, c.height);
-        this.drawEllipse(ctx, loc.x, loc.y, x - loc.x, y - loc.y);
-      }
-    }
-
-    if (loc.x == null) {
-      this.setLocation(x, y);
-    }
+    let ctx = this.prepare(state);
+    ctx.clearRect(0, 0, c.width, c.height);
+    this.drawEllipse(ctx, orig.x, orig.y, curr.x - orig.x, curr.y - orig.y);
+    ctx.stroke();
   }
 
   // @see http://stackoverflow.com/questions/2172798/how-to-draw-an-oval-in-html5-canvas
@@ -39,15 +31,5 @@ export class Ellipse extends Tool {
     ctx.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye);
     ctx.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym);
     //ctx.closePath(); // not used correctly, see comments (use to close off open path)
-    ctx.stroke();
-  }
-
-  onMousedown(event) {
-    this.clearLocation();
-  }
-
-  onMouseup(event) {
-    this.clearLocation();
-    this.save(event);
   }
 }

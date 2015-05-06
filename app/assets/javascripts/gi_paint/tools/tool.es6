@@ -13,57 +13,64 @@ export class Tool {
     this.loc = this.state.location;
   }
 
-  onMousedown(event) {
-    console.log("mouse down");
+  onPenDown(state, loc) {
+    console.log("pen down");
   }
 
-  onMouseup(event) {
-    console.log("mouse up");
+  onPenUp(state, loc) {
+    this.saveDraw(state);
+    this.clearLocation(state);
   }
 
-  onMousemove(event) {
-    console.log("mouse move");
+  onPenMove(state, loc) {
+    console.log("pen down");
   }
 
-  onTouchmove(event) {
+  onPenCancel(state) {
+    this.clearDraw(state);
+    this.clearLocation(state);
   }
 
-  prepare(event) {
+  prepare(state) {
     let ctx = this.draw.getContext(),
-        palette = this.state.palette;
+        palette = state.palette;
     ctx.beginPath();
     ctx.strokeStyle = palette.strokeStyle;
     ctx.lineWidth = palette.lineWidth;
     return ctx;
   }
 
-  getLocation() {
-    return this.state.location;
+  clearLocation(state) {
+    let loc = state.location,
+        curr = loc.current,
+        prev = loc.previous,
+        orig = loc.original;
+    orig.x = null;
+    orig.y = null;
+    prev.x = null;
+    prev.y = null;
+    curr.x = null;
+    curr.y = null;
   }
 
-  setLocation(x, y) {
-    let loc = this.loc;
-    loc.x = x;
-    loc.y = y;
-  }
-
-  clearLocation() {
-    this.setLocation(null, null);
-  }
-
-  save(event) {
+  /**
+   * Save drawing layer and clear it
+   */
+  saveDraw(state) {
     let draw = this.draw,
         primary = this.primary,
         c = draw.getCanvas();
 
     primary.getContext().drawImage(c, 0, 0);
     draw.getContext().clearRect(0, 0, c.width, c.height);
+    console.log("saved");
   }
 
-  clear(event) {
+  cleardraw(state) {
     let draw = this.draw,
         c = draw.getCanvas();
 
     draw.getContext().clearRect(0, 0, c.width, c.height);
+    console.log("cleared");
   }
 }

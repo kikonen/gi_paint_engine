@@ -1,5 +1,7 @@
 "use strict";
 
+const BUTTON_1 = 1;
+
 class Layer {
   constructor(id, canvas) {
     this.id = id;
@@ -50,6 +52,57 @@ class CurrentTool {
     tool.setCanvas(this.canvas);
     return tool;
   }
+
+  setupMouseEvent(event) {
+    let state = this.state,
+        loc = state.location,
+        curr = loc.current,
+        prev = loc.previous,
+        orig = loc.original,
+        pen = event.which === BUTTON_1;
+    if (curr.x) {
+      prev.x = curr.x;
+      prev.y = curr.y;
+    }
+    curr.x = event.offsetX;
+    curr.y = event.offsetY;
+
+    if (pen && !orig.x) {
+      orig.x = curr.x;
+      orig.y = curr.y;
+    }
+
+    return pen ? loc : null;
+  }
+
+  onMousemove(event) {
+    let loc = this.setupMouseEvent(event);
+    if (loc) {
+      this.getTool().onPenMove(this.state, loc);
+    }
+  }
+
+  onMousedown(event) {
+    let loc = this.setupMouseEvent(event);
+    if (loc) {
+      this.getTool().onPenDown(this.state, loc);
+    }
+  }
+
+  onMouseup(event) {
+    let loc = this.setupMouseEvent(event);
+    if (loc) {
+      this.getTool().onPenUp(this.state, loc);
+    }
+  }
+
+  onTouchmove(event) {
+    this.getTool().onTouchmove(event);
+  }
+
+  onTouchend(event) {
+    this.getTool().onTouchend(event);
+  }
 }
 
 
@@ -59,26 +112,8 @@ class CanvasController {
     this.primary = new Layer("gi-primary-canvas", this);
     this.draw = new Layer("gi-draw-canvas", this);
     this.currentTool = new CurrentTool(this);
-  }
 
-  onMousemove(event) {
-    this.currentTool.getTool().onMousemove(event);
-  }
-
-  onMousedown(event) {
-    this.currentTool.getTool().onMousedown(event);
-  }
-
-  onMouseup(event) {
-    this.currentTool.getTool().onMouseup(event);
-  }
-
-  onTouchmove(event) {
-    this.currentTool.getTool().onTouchmove(event);
-  }
-
-  onTouchend(event) {
-    this.currentTool.getTool().onTouchend(event);
+    this.current = this.state.location.current;
   }
 }
 

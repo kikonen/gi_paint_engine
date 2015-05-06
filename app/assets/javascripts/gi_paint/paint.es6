@@ -24,8 +24,18 @@ class PaintController {
       toolId: 1,
       tools: this.createTools(),
       location: {
-        x: null,
-        y: null
+        original: {
+          x: null,
+          y: null
+        },
+        previous: {
+          x: null,
+          y: null
+        },
+        current: {
+          x: null,
+          y: null
+        }
       }
     };
   }
