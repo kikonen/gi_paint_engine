@@ -9,7 +9,7 @@ export class Ellipse extends Tool {
         c = this.draw.getCanvas();
 
     let ctx = this.prepare(state);
-    ctx.clearRect(0, 0, c.width, c.height);
+    this.clearContext(ctx, orig, loc.previous);
     this.drawEllipse(ctx, orig.x, orig.y, curr.x - orig.x, curr.y - orig.y);
     ctx.stroke();
   }

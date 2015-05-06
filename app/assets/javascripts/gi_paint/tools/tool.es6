@@ -73,4 +73,17 @@ export class Tool {
     draw.getContext().clearRect(0, 0, c.width, c.height);
     console.log("cleared");
   }
+
+  /**
+   * Clears drawing context optimally
+   */
+  clearContext(ctx, orig, prev) {
+    let clearX = prev.x < orig.x ? prev.x : orig.x,
+        clearY = prev.y < orig.y ? prev.y : orig.y;
+    ctx.clearRect(
+      clearX - 1,
+      clearY - 1,
+      Math.abs(prev.x - orig.x) + 2,
+      Math.abs(prev.y - orig.y) + 2);
+  }
 }
