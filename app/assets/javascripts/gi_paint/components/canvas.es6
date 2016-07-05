@@ -132,6 +132,8 @@ class CurrentTool {
 
 class CanvasController {
   constructor($scope) {
+    "ngInject";
+
     this.state = $scope.state;
     this.primary = new Layer("gi-primary-canvas", this);
     this.draw = new Layer("gi-draw-canvas", this);

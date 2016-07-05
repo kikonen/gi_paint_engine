@@ -9,6 +9,8 @@ import {Ellipse} from './tools/ellipse';
 
 class PaintController {
   constructor($scope, $http, $location, $timeout, Breadcrumb) {
+    "ngInject";
+
     console.log("paint");
     this.$location = $location;
     this.$timeout = $timeout;
