@@ -1,10 +1,7 @@
 "use strict";
 
-import shared from 'ng/module';
+//import { init as initPaint } from './paint';
 
-angular.module("paint", [
-  'ngTouch',
-  shared.name
-]);
-
-import {} from './paint';
+export function init() {
+//  initPaint();
+}
