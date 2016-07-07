@@ -6,7 +6,7 @@ module GiPaint
 #      @show_navbar = false
       @show_breadcrumb = false
       @base_href = GiPaint::Engine.base_href
-#      @ng_app = "paint"
+      @ng_app = "paint"
     end
   end
 end
