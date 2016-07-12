@@ -1,7 +1,7 @@
 "use strict";
 
-import {} from './components/palette';
-import {} from './components/canvas';
+import * as palette from './components/palette';
+import * as canvas from './components/canvas';
 import {Arrow} from './tools/arrow';
 import {Pen} from './tools/pen';
 import {Rectangle} from './tools/rectangle';
@@ -72,16 +72,21 @@ class PaintController {
   }
 }
 
-angular.module('paint')
-.controller('PaintController', PaintController)
-.config(($stateProvider) => {
-  $stateProvider
-    .state(
-      'paint',
-      {
-        url: '/',
-        templateUrl: 'gi_paint/ui/paint',
-        controller: PaintController,
-        controllerAs: 'paint'
-      });
-});
+export function init() {
+  angular.module('paint')
+    .controller('PaintController', PaintController)
+    .config(($stateProvider) => {
+      $stateProvider
+        .state(
+          'paint',
+          {
+            url: '/',
+            templateUrl: 'gi_paint/ui/paint',
+            controller: PaintController,
+            controllerAs: 'paint'
+          });
+    });
+
+  palette.init();
+  canvas.init();
+}

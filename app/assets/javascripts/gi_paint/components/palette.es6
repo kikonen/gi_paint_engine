@@ -11,15 +11,17 @@ class PaletteController {
   }
 }
 
-angular.module('paint')
-.directive('giPalette', () => {
-  return {
-    restrict: 'E',
-    scope: {
-      state: '=giState'
-    },
-    controller: PaletteController,
-    controllerAs: 'palette',
-    templateUrl: 'gi_paint/ui/palette'
-  };
-});
+export function init() {
+  angular.module('paint')
+    .directive('giPalette', () => {
+      return {
+        restrict: 'E',
+        scope: {
+          state: '=giState'
+        },
+        controller: PaletteController,
+        controllerAs: 'palette',
+        templateUrl: 'gi_paint/ui/palette'
+      };
+    });
+}

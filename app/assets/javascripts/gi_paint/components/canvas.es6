@@ -143,46 +143,48 @@ class CanvasController {
   }
 }
 
-angular.module('paint')
-.directive('giCanvas', () => {
-  return {
-    restrict: 'E',
-    scope: {
-      state: '=giState'
-    },
-    controller: CanvasController,
-    controllerAs: 'canvas',
-    templateUrl: 'gi_paint/ui/canvas'
-  };
-})
-// @see http://jsfiddle.net/guillaumebiton/R8mmR/6/
-.directive('giTouchmove', function($parse) {
-  return {
-    restrict: 'A',
-    link: function(scope, elem, attrs) {
-      let fn = $parse(attrs.giTouchmove);
-      elem.bind('touchmove', (event) => {
-        let callback = () => {
-          fn(scope, {$event:event});
-        };
-        scope.$apply(callback);
-      });
-    }
-  };
-})
-// @see http://jsfiddle.net/guillaumebiton/R8mmR/6/
-.directive('giTouchend', function($parse) {
-  return {
-    restrict: 'A',
-    link: function(scope, elem, attrs) {
-      let fn = $parse(attrs.giTouchend);
-      elem.bind('touchend', (event) => {
-        let callback = () => {
-          fn(scope, {$event:event});
-        };
-        scope.$apply(callback);
-      });
-    }
-  };
-})
-;
+export function init() {
+  angular.module('paint')
+    .directive('giCanvas', () => {
+      return {
+        restrict: 'E',
+        scope: {
+          state: '=giState'
+        },
+        controller: CanvasController,
+        controllerAs: 'canvas',
+        templateUrl: 'gi_paint/ui/canvas'
+      };
+    })
+  // @see http://jsfiddle.net/guillaumebiton/R8mmR/6/
+    .directive('giTouchmove', function($parse) {
+      return {
+        restrict: 'A',
+        link: function(scope, elem, attrs) {
+          let fn = $parse(attrs.giTouchmove);
+          elem.bind('touchmove', (event) => {
+            let callback = () => {
+              fn(scope, {$event:event});
+            };
+            scope.$apply(callback);
+          });
+        }
+      };
+    })
+  // @see http://jsfiddle.net/guillaumebiton/R8mmR/6/
+    .directive('giTouchend', function($parse) {
+      return {
+        restrict: 'A',
+        link: function(scope, elem, attrs) {
+          let fn = $parse(attrs.giTouchend);
+          elem.bind('touchend', (event) => {
+            let callback = () => {
+              fn(scope, {$event:event});
+            };
+            scope.$apply(callback);
+          });
+        }
+      };
+    })
+  ;
+}

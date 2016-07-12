@@ -1,7 +1,8 @@
-"use strict";
-
-//import { init as initPaint } from './paint';
+import * as app from './app';
+import * as paint from './paint';
 
 export function init() {
-//  initPaint();
+  app.init();
+  paint.init();
+  gi.initNg('paint');
 }
